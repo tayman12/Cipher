@@ -12,7 +12,7 @@ public class CipherHelperTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        int[] key = new int[]{1, 2, 3, 4, 5};
+        int[] key = new int[]{4, 5, 3, 7, 2, 8, 1, 6, 10, 9};
         cipherHelper = new CipherHelper(key);
     }
 
@@ -35,7 +35,7 @@ public class CipherHelperTest {
 
     @Test
     public void testValidateOnEncodeInputsWithValidInputsMessageIsTheSameLengthAsKey() throws Exception {
-        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello", 5);
+        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello Test", 5);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class CipherHelperTest {
 
     @Test(expected = Exception.class)
     public void testValidateOnEncodeInputsWithInValidInputsMessageLengthIsGreaterThanKeyLength() throws Exception {
-        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello there", 5);
+        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello there, how are you", 5);
     }
 
     @Test(expected = Exception.class)
@@ -67,5 +67,4 @@ public class CipherHelperTest {
     public void testValidateOnEncodeInputsWithInValidInputsNumberOfTimesToEncodeMessageIsZero() throws Exception {
         Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello", 0);
     }
-
 }
