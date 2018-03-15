@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class CipherHelperTest {
@@ -34,6 +35,24 @@ public class CipherHelperTest {
     }
 
     @Test
+    public void testEncodeMessageLengthIsLessThanKeyLength() throws Exception {
+        String actual = cipherHelper.encode("Hello Bob", 1);
+        assertEquals("BolHeol  b", actual);
+    }
+
+    @Test
+    public void testEncodeMessageLengthEqualsKeyLength() throws Exception {
+        String actual = cipherHelper.encode("Hello Boby", 1);
+        assertEquals("BolHeol yb", actual);
+    }
+
+    @Test
+    public void testEncodeForMultipleTimes() throws Exception {
+        String actual = cipherHelper.encode("CERC", 1995);
+        assertEquals("C RCE     ", actual);
+    }
+
+    @Test
     public void testValidateOnEncodeInputsWithValidInputsMessageIsTheSameLengthAsKey() throws Exception {
         Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello Test", 5);
     }
@@ -44,27 +63,27 @@ public class CipherHelperTest {
     }
 
     @Test(expected = Exception.class)
-    public void testValidateOnEncodeInputsWithInValidInputsMessageIsNull() throws Exception {
+    public void testValidateOnEncodeInputsWithInvalidInputsMessageIsNull() throws Exception {
         Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", null, 5);
     }
 
     @Test(expected = Exception.class)
-    public void testValidateOnEncodeInputsWithInValidInputsMessageIsEmpty() throws Exception {
+    public void testValidateOnEncodeInputsWithInvalidInputsMessageIsEmpty() throws Exception {
         Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "", 5);
     }
 
     @Test(expected = Exception.class)
-    public void testValidateOnEncodeInputsWithInValidInputsMessageLengthIsGreaterThanKeyLength() throws Exception {
+    public void testValidateOnEncodeInputsWithInvalidInputsMessageLengthIsGreaterThanKeyLength() throws Exception {
         Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello there, how are you", 5);
     }
 
     @Test(expected = Exception.class)
-    public void testValidateOnEncodeInputsWithInValidInputsNumberOfTimesToEncodeMessageIsNegative() throws Exception {
+    public void testValidateOnEncodeInputsWithInvalidInputsNumberOfTimesToEncodeMessageIsNegative() throws Exception {
         Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello", -1);
     }
 
     @Test(expected = Exception.class)
-    public void testValidateOnEncodeInputsWithInValidInputsNumberOfTimesToEncodeMessageIsZero() throws Exception {
+    public void testValidateOnEncodeInputsWithInvalidInputsNumberOfTimesToEncodeMessageIsZero() throws Exception {
         Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello", 0);
     }
 }

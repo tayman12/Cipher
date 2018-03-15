@@ -26,6 +26,42 @@ public class CipherHelper {
     }
 
     /*
+    * Encode message k times using the following principle:
+    * The message is written down below the key, so that characters in the message and numbers in the key are correspondingly aligned.
+    * Character in the message at the position i is written in the encoded message at the position ai, where ai is the corresponding number in the key.
+    * And then the encoded message is encoded in the same way. This process is repeated k times. After kth encoding they exchange their message.
+    *
+    * @param message    the message to be encoded
+    * @param k          number of times to encode message
+    *
+    * @return String    encoded message
+    *
+    * @throws Exception if any of the following assumptions failed:
+    *     - Message should not be null or empty
+    *     - Message length should not be greater than key length
+    *     - Number of times to encode the message has to be a positive number    * */
+    public String encode(String message, int k) throws Exception {
+        validateOnEncodeInputs(message, k);
+
+        char[] encodedMessage = new char[key.length];
+        char[] messageCharacters = message.toCharArray();
+
+        for (int i = 0; i < k; i++) {
+            for (int j = 0; j < key.length; j++) {
+                if (j < messageCharacters.length) {
+                    encodedMessage[key[j] - 1] = messageCharacters[j];
+
+                } else {
+                    encodedMessage[key[j] - 1] = ' ';
+                }
+            }
+            messageCharacters = encodedMessage.clone();
+        }
+
+        return new String(encodedMessage);
+    }
+
+    /*
     * Check that inputs to be encoded are valid
     *
     * @param message    the message to be encoded
@@ -39,8 +75,10 @@ public class CipherHelper {
     private void validateOnEncodeInputs(String message, int k) throws Exception {
         if (message == null || message.length() == 0) {
             throw new Exception("Message should not be null or empty");
+
         } else if (message.length() > key.length) {
             throw new Exception("Message length should not be greater than key length");
+
         } else if (k <= 0) {
             throw new Exception("Number of times to encode the message has to be a positive number");
         }
