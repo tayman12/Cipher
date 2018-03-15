@@ -1,5 +1,8 @@
 package org.example.cipher.helper;
 
+import org.example.cipher.model.Message;
+import sun.misc.resources.Messages_es;
+
 /**
  * Holds all the cipher related logic
  */
@@ -40,13 +43,13 @@ public class CipherHelper {
     *     - Message should not be null or empty
     *     - Message length should not be greater than key length
     *     - Number of times to encode the message has to be a positive number    * */
-    public String encode(String message, int k) throws Exception {
-        validateOnEncodeInputs(message, k);
+    public String encode(Message message) throws Exception {
+        validateOnEncodeInputs(message);
 
         char[] encodedMessage = new char[key.length];
-        char[] messageCharacters = message.toCharArray();
+        char[] messageCharacters = message.getText().toCharArray();
 
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < message.getEncodeTimes(); i++) {
             for (int j = 0; j < key.length; j++) {
                 if (j < messageCharacters.length) {
                     encodedMessage[key[j] - 1] = messageCharacters[j];
@@ -72,14 +75,14 @@ public class CipherHelper {
     *     - Message length should not be greater than key length
     *     - Number of times to encode the message has to be a positive number
     * */
-    private void validateOnEncodeInputs(String message, int k) throws Exception {
-        if (message == null || message.length() == 0) {
+    private void validateOnEncodeInputs(Message message) throws Exception {
+        if (message == null || message.getText().length() == 0) {
             throw new Exception("Message should not be null or empty");
 
-        } else if (message.length() > key.length) {
+        } else if (message.getText().length() > key.length) {
             throw new Exception("Message length should not be greater than key length");
 
-        } else if (k <= 0) {
+        } else if (message.getEncodeTimes() <= 0) {
             throw new Exception("Number of times to encode the message has to be a positive number");
         }
     }

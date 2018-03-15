@@ -1,5 +1,6 @@
 package org.example.cipher.helper;
 
+import org.example.cipher.model.Message;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
@@ -36,54 +37,103 @@ public class CipherHelperTest {
 
     @Test
     public void testEncodeMessageLengthIsLessThanKeyLength() throws Exception {
-        String actual = cipherHelper.encode("Hello Bob", 1);
+        Message message = new Message();
+
+        message.setEncodeTimes(1);
+        message.setText("Hello Bob");
+
+        String actual = cipherHelper.encode(message);
         assertEquals("BolHeol  b", actual);
     }
 
     @Test
     public void testEncodeMessageLengthEqualsKeyLength() throws Exception {
-        String actual = cipherHelper.encode("Hello Boby", 1);
+        Message message = new Message();
+
+        message.setEncodeTimes(1);
+        message.setText("Hello Boby");
+
+        String actual = cipherHelper.encode(message);
         assertEquals("BolHeol yb", actual);
     }
 
     @Test
     public void testEncodeForMultipleTimes() throws Exception {
-        String actual = cipherHelper.encode("CERC", 1995);
+        Message message = new Message();
+
+        message.setEncodeTimes(1995);
+        message.setText("CERC");
+
+        String actual = cipherHelper.encode(message);
         assertEquals("C RCE     ", actual);
     }
 
     @Test
     public void testValidateOnEncodeInputsWithValidInputsMessageIsTheSameLengthAsKey() throws Exception {
-        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello Test", 5);
+        Message message = new Message();
+
+        message.setEncodeTimes(5);
+        message.setText("hello Test");
+
+        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", message);
     }
 
     @Test
     public void testValidateOnEncodeInputsWithValidInputsMessageLengthIsLessThanKeyLength() throws Exception {
-        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hi", 5);
+        Message message = new Message();
+
+        message.setEncodeTimes(5);
+        message.setText("hi");
+
+        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", message);
     }
 
     @Test(expected = Exception.class)
     public void testValidateOnEncodeInputsWithInvalidInputsMessageIsNull() throws Exception {
-        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", null, 5);
+        Message message = new Message();
+
+        message.setEncodeTimes(5);
+
+        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", message);
     }
 
     @Test(expected = Exception.class)
     public void testValidateOnEncodeInputsWithInvalidInputsMessageIsEmpty() throws Exception {
-        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "", 5);
+        Message message = new Message();
+
+        message.setEncodeTimes(5);
+        message.setText("");
+
+        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", message);
     }
 
     @Test(expected = Exception.class)
     public void testValidateOnEncodeInputsWithInvalidInputsMessageLengthIsGreaterThanKeyLength() throws Exception {
-        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello there, how are you", 5);
+        Message message = new Message();
+
+        message.setEncodeTimes(5);
+        message.setText("hello there, how are you");
+
+        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", message);
     }
 
     @Test(expected = Exception.class)
     public void testValidateOnEncodeInputsWithInvalidInputsNumberOfTimesToEncodeMessageIsNegative() throws Exception {
-        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello", -1);
+        Message message = new Message();
+
+        message.setEncodeTimes(-1);
+        message.setText("hello");
+
+        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", message);
     }
 
     @Test(expected = Exception.class)
     public void testValidateOnEncodeInputsWithInvalidInputsNumberOfTimesToEncodeMessageIsZero() throws Exception {
-        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", "hello", 0);
+        Message message = new Message();
+
+        message.setEncodeTimes(0);
+        message.setText("hello");
+
+        Whitebox.invokeMethod(cipherHelper, "validateOnEncodeInputs", message);
     }
 }
