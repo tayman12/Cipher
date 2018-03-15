@@ -24,4 +24,25 @@ public class CipherHelper {
             throw new Exception("Encoding key should not be null or empty");
         }
     }
+
+    /*
+    * Check that inputs to be encoded are valid
+    *
+    * @param message    the message to be encoded
+    * @param k          number of times to encode message
+    *
+    * @throws Exception if any of the following assumptions failed:
+    *     - Message should not be null or empty
+    *     - Message length should not be greater than key length
+    *     - Number of times to encode the message has to be a positive number
+    * */
+    private void validateOnEncodeInputs(String message, int k) throws Exception {
+        if (message == null || message.length() == 0) {
+            throw new Exception("Message should not be null or empty");
+        } else if (message.length() > key.length) {
+            throw new Exception("Message length should not be greater than key length");
+        } else if (k <= 0) {
+            throw new Exception("Number of times to encode the message has to be a positive number");
+        }
+    }
 }
